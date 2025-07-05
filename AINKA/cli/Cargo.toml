@@ -1,0 +1,67 @@
+[package]
+name = "ainka-cli"
+version = "0.1.0"
+edition = "2021"
+authors = ["AINKA Community"]
+description = "AINKA CLI - Command-line interface for AINKA AI assistant"
+license = "Apache-2.0"
+repository = "https://github.com/yourusername/ainka"
+keywords = ["linux", "kernel", "ai", "cli", "system"]
+categories = ["command-line-utilities", "system"]
+
+[dependencies]
+# Core dependencies
+tokio = { version = "1.0", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+clap = { version = "4.0", features = ["derive"] }
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# System monitoring
+sysinfo = "0.29"
+procfs = "0.15"
+
+# Configuration
+config = "0.13"
+toml = "0.8"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Terminal output
+colored = "2.0"
+tabled = "0.10"
+
+# Time handling
+chrono = { version = "0.4", features = ["serde"] }
+
+# Network (for future features)
+reqwest = { version = "0.11", features = ["json"], optional = true }
+
+[dev-dependencies]
+tokio-test = "0.4"
+tempfile = "3.0"
+
+[[bin]]
+name = "ainka-cli"
+path = "src/main.rs"
+
+[features]
+default = ["basic"]
+basic = []
+full = ["reqwest"]
+network = ["reqwest"]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[profile.dev]
+opt-level = 0
+debug = true 
